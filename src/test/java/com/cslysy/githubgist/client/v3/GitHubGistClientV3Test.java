@@ -13,13 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package com.cslysy.githubgist.client.v3;
 
-package com.cslysy.githubgist.client;
+import com.cslysy.githubgist.client.model.Gist;
+import org.junit.Test;
 
 /**
- * {@link GitHubGistClient} implementation for GitHubApi
+ * Test for {@link GitHubGistClientV3}
+ * 
  * @author jakubsprega
  */
-public class GitHubGistClientV3 {
-    
+public class GitHubGistClientV3Test {
+
+    @Test
+    public void testSomeMethod() {
+        GitHubGistClientV3 gitHubGistClientV3 = new GitHubGistClientV3();
+        Gist gist = gitHubGistClientV3.getGist("1ec42d0c86f3d445739f");
+        System.out.println(gist);
+    }
+
 }

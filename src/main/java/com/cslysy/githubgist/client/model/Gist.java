@@ -16,6 +16,8 @@
 
 package com.cslysy.githubgist.client.model;
 
+import com.google.common.base.MoreObjects;
+
 /**
  * Object representation of github gist
  *
@@ -67,5 +69,13 @@ public class Gist {
             return false;
         }
         return true;
+    }
+    
+    @Override
+    public String toString(){
+        return MoreObjects.toStringHelper(this)
+            .add("id", id)
+            .add("content", content)
+            .toString();
     }
 }
