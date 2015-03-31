@@ -14,26 +14,12 @@
  * limitations under the License.
  */
 
-package com.cslysy.githubgist.client.model;
+package com.cslysy.githubgist.client;
 
 /**
- * Object representation of github user
- *
+ * {@link GitHubGistClient} implementation for GitHubApi
  * @author jakubsprega
  */
-public class GitHubUser {
-
-    private String username;
-
-    public GitHubUser(String username) {
-        this.username = username;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
+public class GitHubGistClientV3 {
+    
 }
