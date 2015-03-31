@@ -31,5 +31,4 @@ public class GitHubGistClientV3Test {
         Gist gist = gitHubGistClientV3.getGist("1ec42d0c86f3d445739f");
         System.out.println(gist);
     }
-
 }
