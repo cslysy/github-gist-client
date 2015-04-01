@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.cslysy.githubgist.client;
+package com.cslysy.githubgist.client.api;
 
 import java.util.Set;
 

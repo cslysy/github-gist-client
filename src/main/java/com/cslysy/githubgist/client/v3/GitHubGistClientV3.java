@@ -15,7 +15,7 @@
  */
 package com.cslysy.githubgist.client.v3;
 
-import com.cslysy.githubgist.client.GitHubGistClient;
+import com.cslysy.githubgist.client.api.GitHubGistClient;
 import com.cslysy.githubgist.client.model.Gist;
 import com.cslysy.githubgist.client.model.GitHubUser;
 import com.google.common.base.Joiner;
