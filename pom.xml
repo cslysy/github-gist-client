@@ -19,6 +19,8 @@
     <properties>
         <unirest.java.version>1.4.5</unirest.java.version>
         <guava.version>18.0</guava.version>
+        <restito.version>0.5</restito.version>
+        <logback.version>1.1.3</logback.version>
     </properties>
 
     <dependencies>
@@ -37,6 +39,16 @@
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
             <version>${guava.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.xebialabs.restito</groupId>
+            <artifactId>restito</artifactId>
+            <version>${restito.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>${logback.version}</version>
         </dependency>
     </dependencies>
 </project>

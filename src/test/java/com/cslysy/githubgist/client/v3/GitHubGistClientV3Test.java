@@ -15,20 +15,74 @@
  */
 package com.cslysy.githubgist.client.v3;
 
-import com.cslysy.githubgist.client.model.Gist;
+import com.cslysy.githubgist.client.model.GitHubUser;
+import static com.xebialabs.restito.builder.verify.VerifyHttp.verifyHttp;
+import static com.xebialabs.restito.semantics.Condition.method;
+import static com.xebialabs.restito.semantics.Condition.uri;
+import com.xebialabs.restito.server.StubServer;
+import org.glassfish.grizzly.http.Method;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 /**
  * Test for {@link GitHubGistClientV3}
- * 
+ *
  * @author jakubsprega
  */
 public class GitHubGistClientV3Test {
 
+    private StubServer restioServer;
+    private int restioServerPort;
+
+    @Before
+    public void start() {
+        restioServer = new StubServer().run();
+        restioServerPort = restioServer.getPort();
+    }
+    
+    @After
+    public void stop() {
+        restioServer.stop();
+    }
+
+    /**
+     * Test if GitHubGistClientV3 use correct path to retrieve single gist
+     */
     @Test
-    public void testSomeMethod() {
-        GitHubGistClientV3 gitHubGistClientV3 = new GitHubGistClientV3();
-        Gist gist = gitHubGistClientV3.getGist("1ec42d0c86f3d445739f");
-        System.out.println(gist);
+    public void shouldUseCorrectSingleGistPath() {
+        //given
+        GitHubGistClientV3 gitHubGistClientV3 = new GitHubGistClientV3(getGitHubBaseUrl());
+        //when
+        gitHubGistClientV3.getGist("123");
+        //then
+        verifyHttp(restioServer).once(
+            method(Method.GET), uri("/gists/123")
+        );   
+    }
+    
+    /**
+     * Test if GitHubGistClientV3 use correct path to retrieve all gists for the
+     * given user
+     */
+    @Test
+    public void shouldUseCorrectUserGistsPath() {
+        //given
+        GitHubGistClientV3 gitHubGistClientV3 = new GitHubGistClientV3(getGitHubBaseUrl());
+        //when
+        gitHubGistClientV3.getGistsFor(new GitHubUser("githubusername"));
+        //then
+        verifyHttp(restioServer).once(
+            method(Method.GET), uri("/users/githubusername/gists")
+        );   
+    }
+    
+    /**
+     * Prepare GitHub API mock URL
+     * 
+     * @return mock URL
+     */
+    private String getGitHubBaseUrl(){
+        return String.format("http://localhost:%s", restioServerPort);
     }
 }

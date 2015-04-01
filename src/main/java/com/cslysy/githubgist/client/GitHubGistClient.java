@@ -38,10 +38,10 @@ public interface GitHubGistClient {
     public Gist getGist(String id);
     
      /**
-     * Return {@link Gist} for the given {@link GitHubUser}
+     * Return {@link Gist} list for the given {@link GitHubUser}
      * 
      * @param gitHubUser
      * @return Set of gists for the given id
      */
-    public Set<Gist> getGistFor(GitHubUser gitHubUser);
+    public Set<Gist> getGistsFor(GitHubUser gitHubUser);
 }

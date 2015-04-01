@@ -23,20 +23,20 @@ import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * {@link GitHubGistClient} implementation for GitHub API v3
- * 
- * <p>See<a href=https://developer.github.com/v3/">https://developer.github.com/v3/</a></p>
+ *
+ * <p>
+ * See<a href=https://developer.github.com/v3/">https://developer.github.com/v3/</a></p>
  *
  * @author jakubsprega
  */
 public class GitHubGistClientV3 implements GitHubGistClient {
     
-    /* Default base url for GitHub API */
-    final String defaultBaseUrl = "https://api.github.com";
+    private static final Logger logger = LoggerFactory.getLogger(GitHubGistClientV3.class);
 
     /* Base url for GitHub API */
     private final String baseUrl;
@@ -44,16 +44,16 @@ public class GitHubGistClientV3 implements GitHubGistClient {
     /**
      * Default constructor
      * <p>
-     * Creates client with default API url</p>
+     * Creates client with default API URL https://api.github.com</p>
      */
     public GitHubGistClientV3() {
-        this.baseUrl = defaultBaseUrl;
+        this("https://api.github.com");
     }
 
     /**
      * Constructor
      *
-     * @param baseUrl base url for GitHub API
+     * @param baseUrl base URL for GitHub API
      */
     public GitHubGistClientV3(String baseUrl) {
         this.baseUrl = baseUrl;
@@ -63,19 +63,28 @@ public class GitHubGistClientV3 implements GitHubGistClient {
     public Gist getGist(String id) {
         try {
             HttpResponse httpResponse = Unirest.get(
-                Joiner.on("").join(baseUrl, "/gists/", id)
+                String.format("%s/gists/%s", baseUrl, id)
             ).asJson();
-            
+
             return new Gist(id, httpResponse.getBody().toString());
         } catch (UnirestException ex) {
-            Logger.getLogger(GitHubGistClientV3.class.getName()).log(Level.SEVERE, null, ex);
-            return null;
+            logger.error(ex.getMessage(), ex);
+            throw new RuntimeException(ex);
         }
     }
-    
+
     @Override
-    public Set<Gist> getGistFor(GitHubUser gitHubUser) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public Set<Gist> getGistsFor(GitHubUser gitHubUser) {
+        try {
+            HttpResponse httpResponse = Unirest.get(
+                String.format("%s/users/%s/gists", baseUrl, gitHubUser.getUsername())
+            ).asJson();
+
+            return null;
+        } catch (UnirestException ex) {
+            logger.error(ex.getMessage(), ex);
+            throw new RuntimeException(ex);
+        }
     }
 
 }
