@@ -19,20 +19,20 @@ package com.cslysy.githubgist.client.model;
 import com.google.common.base.MoreObjects;
 
 /**
- * Object representation of github gist
+ * Object representation of GitHub gist
  *
  * @author jakubsprega
  */
 public class Gist {
 
-    private String id;
-    private String content;
+    private final String id;
+    private final String content;
 
     public Gist(String id, String content) {
         this.id = id;
         this.content = content;
     }
-
+    
     public String getId() {
         return id;
     }

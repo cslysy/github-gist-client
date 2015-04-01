@@ -17,7 +17,7 @@
 package com.cslysy.githubgist.client.model;
 
 /**
- * Object representation of github user
+ * Object representation of GitHub user
  *
  * @author jakubsprega
  */
