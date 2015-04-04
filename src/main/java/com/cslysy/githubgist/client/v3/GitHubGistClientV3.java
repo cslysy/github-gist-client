@@ -18,19 +18,20 @@ package com.cslysy.githubgist.client.v3;
 import com.cslysy.githubgist.client.api.GitHubGistClient;
 import com.cslysy.githubgist.client.model.Gist;
 import com.cslysy.githubgist.client.model.GitHubUser;
-import com.google.common.base.Joiner;
-import com.mashape.unirest.http.HttpResponse;
-import com.mashape.unirest.http.Unirest;
-import com.mashape.unirest.http.exceptions.UnirestException;
+import com.google.common.net.HttpHeaders;
+import com.jcabi.http.Request;
+import com.jcabi.http.request.ApacheRequest;
+import com.jcabi.http.request.JdkRequest;
+import java.io.IOException;
 import java.util.Set;
+import javax.ws.rs.core.MediaType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
  * {@link GitHubGistClient} implementation for GitHub API v3
  *
- * <p>
- * See<a href=https://developer.github.com/v3/">https://developer.github.com/v3/</a></p>
+ * <p>See <a href="https://developer.github.com/v3/">https://developer.github.com/v3/</a></p>
  *
  * @author jakubsprega
  */
@@ -62,12 +63,13 @@ public class GitHubGistClientV3 implements GitHubGistClient {
     @Override
     public Gist getGist(String id) {
         try {
-            HttpResponse httpResponse = Unirest.get(
-                String.format("%s/gists/%s", baseUrl, id)
-            ).asJson();
-
-            return new Gist(id, httpResponse.getBody().toString());
-        } catch (UnirestException ex) {
+            new JdkRequest(baseUrl).uri()
+                .path(String.format("/gists/%s", id)).back()
+                .method(Request.GET)
+                .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON)
+                .fetch();
+            return null;
+        } catch (IOException ex) {
             logger.error(ex.getMessage(), ex);
             throw new RuntimeException(ex);
         }
@@ -76,15 +78,17 @@ public class GitHubGistClientV3 implements GitHubGistClient {
     @Override
     public Set<Gist> getGistsFor(GitHubUser gitHubUser) {
         try {
-            HttpResponse httpResponse = Unirest.get(
-                String.format("%s/users/%s/gists", baseUrl, gitHubUser.getUsername())
-            ).asJson();
-
+            new JdkRequest(baseUrl).uri()
+                .path(
+                    String.format("/users/%s/gists", gitHubUser.getUsername())
+                ).back()
+                .method(Request.GET)
+                .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON)
+                .fetch();
             return null;
-        } catch (UnirestException ex) {
+        } catch (IOException ex) {
             logger.error(ex.getMessage(), ex);
             throw new RuntimeException(ex);
         }
     }
-
 }
